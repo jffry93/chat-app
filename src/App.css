@@ -1,31 +1,7 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @keyframes App-logo-spin {
@@ -36,7 +12,65 @@
     transform: rotate(360deg);
   }
 }
+h1 {
+  font-size: clamp(3.125rem, 5vw, 5rem);
+  line-height: 1.07143;
+  letter-spacing: -0.005em;
+}
+h2 {
+  font-size: clamp(32px, 3vw, 48px);
+  /* font-weight: lighter; */
+  line-height: 1.07143;
+  letter-spacing: -0.005em;
+}
+h3 {
+  font-size: clamp(21px, 4vw, 28px);
+  line-height: 1.14286;
+  letter-spacing: 0.007em;
+}
+h4 {
+  font-size: clamp(17px, 3vw, 20px);
+  line-height: 1.14286;
+  letter-spacing: 0.007em;
+}
+h5 {
+  font-size: clamp(0.9rem, 0.5vw, 1rem);
+  font-weight: 300;
+  letter-spacing: 0px;
+  line-height: 1.381;
+}
+p {
+  font-size: clamp(16px, 1.2vw, 17px);
+  line-height: clamp(25.000032424926758px, 0.5vw, 29.001001358032227px);
+  letter-spacing: clamp(0.011em, 0.5vw, 0.022em);
+}
 
 button {
+  border: none;
+  color: white;
+  background-color: #111316;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: clamp(16px, 3vw, 18px);
+}
+button:hover {
+  cursor: pointer;
+  transform: scale(0.99);
+  /* transform: scale(1.02); */
+}
+button:active {
+  transform: scale(0.98);
+}
+
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
   font-size: calc(10px + 2vmin);
+  color: white;
 }

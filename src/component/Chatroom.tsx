@@ -5,35 +5,102 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import 'firebase/compat/firestore';
 import { initializeApp } from 'firebase/app';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  DocumentSnapshot,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { useEffect } from 'react';
 
 const Chatroom = () => {
-  const firebaseConfig = initializeApp({
-    apiKey: 'AIzaSyAGcfGyFH5--R4Ct86VYVSFqn5nPnV3tqs',
-    authDomain: 'encouraging-key-317117.firebaseapp.com',
-    projectId: 'encouraging-key-317117',
-    storageBucket: 'encouraging-key-317117.appspot.com',
-    messagingSenderId: '573617634514',
-    appId: '1:573617634514:web:e2ee6572a081c33bf7810b',
-    measurementId: 'G-WR1B7K7400',
-  });
-
-  const firestore = getFirestore();
+  //USER INFORMATION
   const auth = getAuth();
   const [user] = useAuthState(auth);
 
-  const specialOfTheDay = doc(firestore, 'dailySpecial/2021-09-14');
-  function writeDailySpecial() {
+  const firestore = getFirestore();
+
+  // ADD DATA TO FIRESTORE EXAMPLE
+  //SPECIFY THE PATH
+  const specialOfTheDay = doc(firestore, 'dailySpecial/2021-09-15');
+  async function writeDailySpecial() {
     const docData = {
-      description: 'A delicious coffee',
-      price: 2.0,
+      description: 'A delicious thing',
+      price: 1.0,
       milk: 'none',
       vegan: true,
     };
-    setDoc(specialOfTheDay, docData);
+    await setDoc(specialOfTheDay, docData);
   }
-  console.log(specialOfTheDay);
-  writeDailySpecial();
+
+  //ADD A NEW DOCUMENT AND COLLECTION WITHOUT SPECIFYING PATH
+  //this method returns a newDoc variable
+  const ordersCollection = collection(firestore, 'orders');
+
+  async function addNewDocument() {
+    const newDoc = await addDoc(ordersCollection, {
+      customer: 'Brian',
+      drink: 'milk',
+      total_cost: (100 + Math.floor(Math.random() * 400)) / 100,
+    });
+    // console.log(newDoc.path);
+  }
+
+  //Read a single documnent
+  async function readSingleDocument() {
+    const mySnapshot = await getDoc(specialOfTheDay);
+
+    if (mySnapshot.exists()) {
+      const docData = mySnapshot.data();
+      // console.log(`My data in string form is ${docData.vegan}`);
+    }
+  }
+
+  //READ A DOCUMENT IN REAL TIME
+  function listenToDocument() {
+    onSnapshot(specialOfTheDay, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const docData = docSnapshot.data();
+        console.log(
+          `In realtime, docData is currently is ${JSON.stringify(docData)}`
+        );
+      }
+    });
+  }
+
+  //CALL QUERY TO GET MULTIPLE DOCS
+  async function queryforDocuments() {
+    const customerOrderQuery = query(
+      collection(firestore, 'orders'),
+      where('drink', '==', 'milk'),
+      // orderBy('total_cost'),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(customerOrderQuery);
+    //allDocs = array
+    const allDocs = querySnapshot.forEach((snap) => {
+      console.log(
+        `Document ${snap.id} contains ${JSON.stringify(snap.data())}`
+      );
+    });
+  }
+
+  useEffect(() => {
+    listenToDocument();
+    writeDailySpecial();
+    // addNewDocument();
+    readSingleDocument();
+    queryforDocuments();
+  }, []);
 
   return (
     <div>

@@ -68,10 +68,6 @@ const Chatroom = () => {
     setFormValue('');
     //reset textarea height
     e.target.style.cssText = 'height:50px; ';
-
-    // console.log(uid, photoURL);
-    // console.log(messagesRef);
-    // console.log(e);
   };
 
   const commentEnterSubmit = (e) => {
@@ -126,15 +122,13 @@ const StyledMain = styled.div`
 
   display: flex;
   flex-direction: column;
-
-  border: 1px solid white;
   form {
-    background-color: rgb(56, 56, 143);
-
-    padding: 8px 16px;
     display: flex;
     align-items: center;
     gap: 16px;
+
+    background-color: rgb(56, 56, 143);
+    padding: 8px 16px;
   }
 
   form button {
@@ -170,6 +164,7 @@ const StyledMain = styled.div`
     font-size: 18px;
     background: rgb(58, 58, 58);
     color: white;
+    border: none;
     outline: none;
 
     border-radius: 30px;
@@ -185,7 +180,6 @@ const StyledMessages = styled.div`
   padding: 0 16px;
 
   height: 100%;
-  border: 1px solid yellow;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

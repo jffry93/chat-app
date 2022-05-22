@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
-const SignIn = () => {
+const SignIn = ({ setToggle }) => {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   const signIn = () =>
@@ -14,6 +14,7 @@ const SignIn = () => {
         const user = result.user;
         // setUserData(user);
         // ...
+        setToggle(false);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -27,7 +28,7 @@ const SignIn = () => {
       });
   return (
     <section>
-      <button onClick={() => signIn()}>Sign in with Google</button>
+      <button onClick={() => signIn()}>Sign in</button>
     </section>
   );
 };

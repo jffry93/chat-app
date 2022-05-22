@@ -10,6 +10,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 // COMPONENTS
 import SignIn from './component/SignIn';
 import Chatroom from './component/Chatroom';
+import LandingPage from './component/LandingPage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAGcfGyFH5--R4Ct86VYVSFqn5nPnV3tqs',
@@ -25,19 +26,36 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 function App() {
+  const [toggle, setToggle] = useState(false);
   const [user] = useAuthState(auth);
   console.log(user?.photoURL);
 
   return (
     <div className='App'>
       <StyledHeader>
-        <h2>Secret Chat</h2>
-        {user ? <button onClick={() => auth.signOut()}>Sign Out</button> : ''}
-        <div className='user'>
-          <img src={user?.photoURL} alt='' />
-        </div>
+        <h2>freeChat</h2>
+        {user ? (
+          <div className='dropdown'>
+            <div
+              className='user'
+              onClick={() => {
+                setToggle(!toggle);
+                console.log('foo');
+              }}
+            >
+              <img src={user?.photoURL} alt='' />
+            </div>
+
+            <ul className={!toggle ? 'active' : ''}>
+              {/* <li>Dark Mode</li> */}
+              <li onClick={() => auth.signOut()}>Sign Out</li>
+            </ul>
+          </div>
+        ) : (
+          <SignIn setToggle={setToggle} />
+        )}
       </StyledHeader>
-      {user ? <Chatroom /> : <SignIn />}
+      {user ? <Chatroom /> : <LandingPage />}
     </div>
   );
 }
@@ -48,17 +66,46 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+
   height: var(--navbar-height);
-  /* max-width: 600px; */
-  /* border: 1px solid red; */
+  width: 100%;
   padding: 0 16px;
+
   .user {
     display: flex;
+
     border-radius: 50%;
+    width: 33px;
+    height: 33px;
+
     overflow: hidden;
     img {
-      width: 30px;
+      width: 33px;
+    }
+  }
+  .dropdown {
+    position: relative;
+
+    display: flex;
+    ul {
+      position: absolute;
+      top: 35px;
+      right: 0px;
+      width: 120px;
+
+      list-style: none;
+      text-align: left;
+      font-size: clamp(14px, 2vw, 16px);
+
+      background-color: #181b20;
+
+      li {
+        padding: 8px 16px;
+        border-bottom: 1px solid grey;
+      }
+    }
+    .active {
+      display: none;
     }
   }
 `;

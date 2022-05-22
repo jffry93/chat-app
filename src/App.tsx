@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import './App.css';
 import { useState, useEffect } from 'react';
 //FIREBASE
@@ -25,16 +26,39 @@ const auth = getAuth();
 
 function App() {
   const [user] = useAuthState(auth);
-  // console.log(user);
+  console.log(user?.photoURL);
 
   return (
     <div className='App'>
-      <header>
-        <h1>Chat App</h1>
-      </header>
+      <StyledHeader>
+        <h2>Secret Chat</h2>
+        <div className='user'>
+          <img src={user?.photoURL} alt='' />
+        </div>
+      </StyledHeader>
       {user ? <Chatroom /> : <SignIn />}
+      {user ? <button onClick={() => auth.signOut()}>Sign Out</button> : ''}
     </div>
   );
 }
 
 export default App;
+
+const StyledHeader = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--navbar-height);
+  /* max-width: 600px; */
+  /* border: 1px solid red; */
+  padding: 0 16px;
+  .user {
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 30px;
+    }
+  }
+`;

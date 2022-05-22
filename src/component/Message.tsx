@@ -1,4 +1,4 @@
-import React from 'react';
+import styled from 'styled-components';
 
 const Message = (props) => {
   const { message, uid, photoURL } = props.message;
@@ -7,11 +7,16 @@ const Message = (props) => {
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   //   console.log(props.auth);
   return (
-    <div className={`message ${messageClass}`}>
+    <StyledMessage className={`message ${messageClass}`}>
       <img src={photoURL} alt='' />
       <p>{message}</p>
-    </div>
+    </StyledMessage>
   );
 };
 
 export default Message;
+
+const StyledMessage = styled.div`
+  display: flex;
+  align-items: center;
+`;

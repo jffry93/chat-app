@@ -18,6 +18,7 @@ import {
   query,
   setDoc,
   where,
+  serverTimestamp,
 } from 'firebase/firestore';
 //REACT FIREBASE HOOKS
 import {
@@ -25,44 +26,69 @@ import {
   useCollectionData,
 } from 'react-firebase-hooks/firestore';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Message from './Message';
 
 const Chatroom = () => {
   //USER INFORMATION
   const auth = getAuth();
   const [user] = useAuthState(auth);
-
   //REACT FIREBASE HOOKS
   const messagesRef = collection(getFirestore(), 'messages');
+  //STATE
+  const [formValue, setFormValue] = useState('');
+  const dummy = useRef();
   // console.log(messagesRef);
   // created custom query to populate messages in order created
   const customQuery = query(
     collection(getFirestore(), 'messages'),
     orderBy('createdAt'),
-    limit(10)
+    limit(30)
   );
   // console.log(customQuery);
   const [values, loading, error] = useCollectionData(customQuery, {
     idField: 'id',
   });
-  console.log(values);
+
+  //ADD NEW MESSAGE DOCUMENT TO FIRESTORE COLLECTION
+  const messageHandler = async (e) => {
+    e.preventDefault();
+    const { uid, photoURL } = auth.currentUser;
+
+    await addDoc(messagesRef, {
+      message: formValue,
+      createdAt: serverTimestamp(),
+      uid,
+      photoURL,
+    });
+    setFormValue('');
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
+
+    console.log(uid, photoURL);
+    console.log(messagesRef);
+  };
 
   return (
     <div>
       <div>
         <h2>Welcome</h2>
+        <img src={auth.currentUser?.photoURL} alt='' />
         <h3>{user?.displayName}</h3>
       </div>
       <div>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Collection: Loading...</span>}
         {values &&
-          values.map((msg) => (
-            <div>
-              <p>{msg.message}</p>
-            </div>
-          ))}
+          values.map((msg, i) => <Message key={i} message={msg} auth={auth} />)}
+        <div ref={dummy}></div>
       </div>
+      <form onSubmit={messageHandler}>
+        <input
+          value={formValue}
+          onChange={(e) => setFormValue(e.target.value)}
+        />
+        <button type='submit'>Send</button>
+      </form>
       <button onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   );

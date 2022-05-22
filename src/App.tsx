@@ -32,12 +32,12 @@ function App() {
     <div className='App'>
       <StyledHeader>
         <h2>Secret Chat</h2>
+        {user ? <button onClick={() => auth.signOut()}>Sign Out</button> : ''}
         <div className='user'>
           <img src={user?.photoURL} alt='' />
         </div>
       </StyledHeader>
       {user ? <Chatroom /> : <SignIn />}
-      {user ? <button onClick={() => auth.signOut()}>Sign Out</button> : ''}
     </div>
   );
 }

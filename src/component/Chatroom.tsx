@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-
+//ICONS
+import { GrSend } from 'react-icons/gr';
 import { getAuth } from 'firebase/auth';
 //FIREBASE AUTH
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -39,8 +40,9 @@ const Chatroom = () => {
   const messagesRef = collection(getFirestore(), 'messages');
   //STATE
   const [formValue, setFormValue] = useState('');
-  const dummy = useRef();
-  // console.log(messagesRef);
+  //REF
+  const scrollBottom = useRef<null | HTMLDivElement>(null);
+
   // created custom query to populate messages in order created
   const customQuery = query(
     collection(getFirestore(), 'messages'),
@@ -64,39 +66,53 @@ const Chatroom = () => {
       photoURL,
     });
     setFormValue('');
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
+    //reset textarea height
+    e.target.style.cssText = 'height:50px; ';
 
-    console.log(uid, photoURL);
-    console.log(messagesRef);
+    // console.log(uid, photoURL);
+    // console.log(messagesRef);
+    // console.log(e);
   };
 
-  // const commentEnterSubmit = (e) => {
-  //   if (e.key === "Enter" && e.shiftKey == false) {
-  //     console.log('foo');
-  //     // const data = {content:e.target.value};
-  //     // return handleSubmit(CommentOnSubmit(data));
-  //   }
   const commentEnterSubmit = (e) => {
     if (e.key === 'Enter' && e.shiftKey == false) messageHandler(e);
+  };
+  const autosize = (e) => {
+    var el = e.target;
+    el.style.cssText = 'height:50px; ';
+    el.style.cssText = 'height:' + el.scrollHeight + 'px';
   };
 
   return (
     <StyledMain>
-      <StyledMessage>
+      <StyledMessages>
+        <div ref={scrollBottom}></div>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Collection: Loading...</span>}
         {values &&
-          values.map((msg, i) => <Message key={i} message={msg} auth={auth} />)}
-        <div ref={dummy}></div>
-      </StyledMessage>
+          values.map((msg, i) => (
+            <Message
+              key={i}
+              message={msg}
+              auth={auth}
+              scrollBottom={scrollBottom}
+              query={customQuery}
+            />
+          ))}
+      </StyledMessages>
       <form onSubmit={messageHandler}>
-        <textarea
-          rows='4'
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-          onKeyPress={commentEnterSubmit}
-        />
-        <button type='submit'>Send</button>
+        <div className='grow-wrap'>
+          <textarea
+            rows={1}
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+            onKeyPress={commentEnterSubmit}
+            onKeyDown={autosize}
+          />
+        </div>
+        <button type='submit'>
+          <GrSend size={30} />
+        </button>
       </form>
     </StyledMain>
   );
@@ -107,45 +123,69 @@ export default Chatroom;
 const StyledMain = styled.div`
   height: var(--container-height);
   width: 100%;
-  border: 1px solid red;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
+  border: 1px solid white;
   form {
-    /* height: 10vh; */
-    /* bottom: 0; */
-    background-color: rgb(24, 23, 23);
-    width: 100%;
-    /* max-width: 728px; */
+    background-color: rgb(56, 56, 143);
+
+    padding: 8px 16px;
     display: flex;
-    font-size: 1.5rem;
+    align-items: center;
+    gap: 16px;
   }
 
   form button {
-    width: 20%;
+    padding: 11px;
     background-color: rgb(56, 56, 143);
+    border: 1px solid white;
+
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      position: relative;
+      right: 2px;
+    }
+  }
+
+  .grow-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
 
   textarea {
     line-height: 1.5;
     width: 100%;
-    height: 100px;
-    font-size: clamp(18px, 4vw, 25px);
+    resize: none;
+    /* font-size: clamp(18px, 4vw, 25px); */
+    font-size: 18px;
     background: rgb(58, 58, 58);
     color: white;
     outline: none;
-    border: none;
-    padding: 8px 16px;
+
+    border-radius: 30px;
+    padding: 10px 24px 10px;
+    max-height: 100px;
+    min-height: 50px;
   }
 `;
-const StyledMessage = styled.div`
+const StyledMessages = styled.div`
   display: flex;
   flex-direction: column-reverse;
+  gap: 32px;
+  padding: 0 16px;
+
   height: 100%;
   border: 1px solid yellow;
-
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -158,5 +198,13 @@ const StyledMessage = styled.div`
 
   &::-webkit-scrollbar-thumb {
     background: #6649b8;
+  }
+  .sent {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    .content {
+      border-top-right-radius: 4px;
+      border-top-left-radius: 8px;
+    }
   }
 `;

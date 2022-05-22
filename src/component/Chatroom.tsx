@@ -127,13 +127,13 @@ const StyledMain = styled.div`
     align-items: center;
     gap: 16px;
 
-    background-color: rgb(56, 56, 143);
+    background-color: var(--primary-shade);
     padding: 8px 16px;
   }
 
   form button {
     padding: 11px;
-    background-color: rgb(56, 56, 143);
+    background-color: var(--primary-color);
     border: 1px solid white;
 
     border-radius: 50%;
@@ -147,6 +147,8 @@ const StyledMain = styled.div`
     svg {
       position: relative;
       right: 2px;
+      filter: brightness(0) saturate(100%) invert(100%) sepia(1%)
+        saturate(3284%) hue-rotate(153deg) brightness(100%) contrast(97%);
     }
   }
 
@@ -162,8 +164,7 @@ const StyledMain = styled.div`
     resize: none;
     /* font-size: clamp(18px, 4vw, 25px); */
     font-size: 18px;
-    background: rgb(58, 58, 58);
-    color: white;
+    background: var(--secondary-shade);
     border: none;
     outline: none;
 
@@ -176,7 +177,6 @@ const StyledMain = styled.div`
 const StyledMessages = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  gap: 32px;
   padding: 0 16px;
 
   height: 100%;
@@ -196,9 +196,20 @@ const StyledMessages = styled.div`
   .sent {
     flex-direction: row-reverse;
     align-self: flex-end;
+    margin-bottom: 4px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+      rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+      rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    .profile {
+      display: none;
+    }
     .content {
-      border-top-right-radius: 4px;
-      border-top-left-radius: 8px;
+      border-top-right-radius: 2px;
+      border-top-left-radius: 16px;
+      background-color: var(--secondary-color);
+      color: var(--primary-shade);
     }
   }
 `;

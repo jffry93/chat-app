@@ -34,7 +34,7 @@ const StyledMessage = styled.div`
   align-items: flex-start;
   gap: 8px;
 
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   .profile {
     min-width: 45px;
@@ -49,9 +49,12 @@ const StyledMessage = styled.div`
   }
   .content {
     display: flex;
+
+    background-color: var(--secondary-shade);
     border: 1px solid white;
     border-radius: 16px;
     border-top-left-radius: 4px;
+
     text-align: left;
     padding: 24px 16px;
     word-break: break-word;

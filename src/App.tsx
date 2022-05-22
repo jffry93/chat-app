@@ -33,7 +33,7 @@ function App() {
   return (
     <div className='App'>
       <StyledHeader>
-        <h2>freeChat</h2>
+        <h2 className='logo'>freeChat</h2>
         {user ? (
           <div className='dropdown'>
             <div
@@ -70,6 +70,10 @@ const StyledHeader = styled.header`
   height: var(--navbar-height);
   width: 100%;
   padding: 0 16px;
+  background-color: var(--primary-color);
+  .logo {
+    color: var(--primary-shade);
+  }
 
   .user {
     display: flex;
@@ -79,6 +83,7 @@ const StyledHeader = styled.header`
     height: 33px;
 
     overflow: hidden;
+    cursor: pointer;
     img {
       width: 33px;
     }
@@ -96,12 +101,13 @@ const StyledHeader = styled.header`
       list-style: none;
       text-align: left;
       font-size: clamp(14px, 2vw, 16px);
-
-      background-color: #181b20;
+      color: #2b2b2b;
+      background-color: var(--secondary-shade);
 
       li {
         padding: 8px 16px;
-        border-bottom: 1px solid grey;
+        border-bottom: 1px solid #1b1b1b;
+        cursor: pointer;
       }
     }
     .active {

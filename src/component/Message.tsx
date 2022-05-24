@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-const Message = (props) => {
+const Message = (props: {
+  message: { message: any; uid: any; photoURL: any };
+  auth: any;
+  scrollBottom: any;
+}) => {
   const { message, uid, photoURL } = props.message;
   const auth = props.auth;
   const dummy = props.scrollBottom;

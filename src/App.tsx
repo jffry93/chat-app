@@ -43,7 +43,7 @@ function App() {
                 console.log('foo');
               }}
             >
-              <img src={user?.photoURL} alt='' />
+              <img src={user.photoURL as string} alt='profile image' />
             </div>
 
             <ul className={!toggle ? 'active' : ''}>

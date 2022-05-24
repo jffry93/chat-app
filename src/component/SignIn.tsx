@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
-const SignIn = ({ setToggle }) => {
+const SignIn = ({ setToggle }: boolean) => {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   const signIn = () =>

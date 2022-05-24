@@ -187,7 +187,7 @@ const StyledMessages = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: #1e1e24;
+    background: var(--primary-color);
   }
 
   &::-webkit-scrollbar-thumb {
@@ -198,10 +198,7 @@ const StyledMessages = styled.div`
     align-self: flex-end;
     margin-bottom: 4px;
     border-radius: 16px;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-      rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-      rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+
     .profile {
       display: none;
     }
@@ -210,6 +207,12 @@ const StyledMessages = styled.div`
       border-top-left-radius: 16px;
       background-color: var(--secondary-color);
       color: var(--primary-shade);
+      border: 1px solid var(--secondary-color);
+
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
+        rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
+        rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
+        rgba(0, 0, 0, 0.07) 0px 32px 64px;
     }
   }
 `;

@@ -15,6 +15,7 @@ export default LandingPage;
 
 const StyledLanding = styled.div`
   height: var(--container-height);
+  color: var(--primary-text-color);
   display: flex;
   flex-direction: column;
   align-items: center;

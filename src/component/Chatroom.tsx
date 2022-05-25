@@ -51,11 +51,11 @@ const Chatroom = () => {
   );
   // console.log(customQuery);
   const [values, loading, error] = useCollectionData(customQuery, {
-    idField: 'id',
+    // idField: 'id',
   });
 
   //ADD NEW MESSAGE DOCUMENT TO FIRESTORE COLLECTION
-  const messageHandler = async (e) => {
+  const messageHandler = async (e: any) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
 
@@ -70,10 +70,10 @@ const Chatroom = () => {
     e.target.style.cssText = 'height:50px; ';
   };
 
-  const commentEnterSubmit = (e) => {
+  const commentEnterSubmit = (e: any) => {
     if (e.key === 'Enter' && e.shiftKey == false) messageHandler(e);
   };
-  const autosize = (e) => {
+  const autosize = (e: any) => {
     var el = e.target;
     el.style.cssText = 'height:50px; ';
     el.style.cssText = 'height:' + el.scrollHeight + 'px';
@@ -164,6 +164,7 @@ const StyledMain = styled.div`
     resize: none;
     /* font-size: clamp(18px, 4vw, 25px); */
     font-size: 18px;
+    color: var(--primary-text-color);
     background: var(--secondary-shade);
     border: none;
     outline: none;
@@ -178,6 +179,7 @@ const StyledMessages = styled.div`
   display: flex;
   flex-direction: column-reverse;
   padding: 0 16px;
+  color: var(--primary-text-color);
 
   height: 100%;
   overflow-y: scroll;
@@ -196,7 +198,7 @@ const StyledMessages = styled.div`
   .sent {
     flex-direction: row-reverse;
     align-self: flex-end;
-    margin-bottom: 4px;
+    margin-bottom: 16px;
     border-radius: 16px;
 
     .profile {
@@ -206,13 +208,11 @@ const StyledMessages = styled.div`
       border-top-right-radius: 2px;
       border-top-left-radius: 16px;
       background-color: var(--secondary-color);
-      color: var(--primary-shade);
+      color: white;
       border: 1px solid var(--secondary-color);
 
-      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
-        rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
-        rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
-        rgba(0, 0, 0, 0.07) 0px 32px 64px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+        rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     }
   }
 `;

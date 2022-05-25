@@ -27,11 +27,12 @@ const auth = getAuth();
 
 function App() {
   const [toggle, setToggle] = useState(false);
+  const [darkmode, setDarkmode] = useState(false);
   const [user] = useAuthState(auth);
-  console.log(user?.photoURL);
+  // console.log(user?.photoURL);
 
   return (
-    <div className='App'>
+    <div className={!darkmode ? 'darkmode' : 'lightmode'}>
       <StyledHeader>
         <h2 className='logo'>freeChat</h2>
         {user ? (
@@ -48,6 +49,14 @@ function App() {
 
             <ul className={!toggle ? 'active' : ''}>
               {/* <li>Dark Mode</li> */}
+              <li
+                onClick={() => {
+                  setDarkmode(!darkmode);
+                  console.log(darkmode);
+                }}
+              >
+                Dark Mode
+              </li>
               <li onClick={() => auth.signOut()}>Sign Out</li>
             </ul>
           </div>
@@ -72,7 +81,7 @@ const StyledHeader = styled.header`
   padding: 0 16px;
   background-color: var(--primary-color);
   .logo {
-    color: var(--primary-shade);
+    color: #f5f7fb;
   }
 
   .user {
@@ -101,7 +110,7 @@ const StyledHeader = styled.header`
       list-style: none;
       text-align: left;
       font-size: clamp(14px, 2vw, 16px);
-      color: #2b2b2b;
+      color: var(--primary-text-color);
       background-color: var(--secondary-shade);
 
       li {

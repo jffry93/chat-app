@@ -55,7 +55,7 @@ const StyledMessage = styled.div`
     display: flex;
 
     background-color: var(--secondary-shade);
-    border: 1px solid white;
+    border: 1px solid var(--secondary-shade);
     border-radius: 16px;
     border-top-left-radius: 4px;
 

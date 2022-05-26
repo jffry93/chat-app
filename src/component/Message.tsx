@@ -60,7 +60,7 @@ const StyledMessage = styled.div`
     border-top-left-radius: 4px;
 
     text-align: left;
-    padding: 24px 16px;
+    padding: 12px 16px;
     word-break: break-word;
   }
 `;

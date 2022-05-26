@@ -73,8 +73,12 @@ const Chatroom = () => {
   const commentEnterSubmit = (e: any) => {
     if (e.key === 'Enter' && e.shiftKey == false) messageHandler(e);
   };
-  const autosize = (e: any) => {
-    var el = e.target;
+
+  const textHandler = (e: any) => {
+    let el = e.target;
+    // add text typed in the chatbox to this piece of state
+    setFormValue(el.value);
+    //update the height of the textarea when a new line is added
     el.style.cssText = 'height:50px; ';
     el.style.cssText = 'height:' + el.scrollHeight + 'px';
   };
@@ -101,9 +105,8 @@ const Chatroom = () => {
           <textarea
             rows={1}
             value={formValue}
-            onChange={(e) => setFormValue(e.target.value)}
+            onChange={(e) => textHandler(e)}
             onKeyPress={commentEnterSubmit}
-            onKeyDown={autosize}
           />
         </div>
         <button type='submit'>
